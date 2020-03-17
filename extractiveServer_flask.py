@@ -11,7 +11,6 @@ def url_request():
     return jsonify(
         filename='data\\cna_news_for_testing.csv'
     )
-    return response
 
 @app.route('/')
 def index():
