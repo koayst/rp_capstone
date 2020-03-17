@@ -3,7 +3,7 @@ from PIL import Image
 import streamlit 
 
 rp_logo_img = Image.open('img\\rplogo.png')
-streamlit.image(rp_logo_img, caption='Republic Polytechnic (Tech Immersion Placement Programme - Intake 1 - Jan 2020)', width=400, format='PNG')
+streamlit.image(rp_logo_img, width=500, caption='Tech Immersion Placement Programme - Version 0.01', format='PNG')
 
 url_text_input = streamlit.sidebar.text_input('URL:', 'http://')
 url_summarize_btn = streamlit.sidebar.button('Get Summary')
