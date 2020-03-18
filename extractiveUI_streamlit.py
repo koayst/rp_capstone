@@ -1,5 +1,7 @@
 #!pip install streamlit
 
+# streamlit run extractiveUI_streamlit.py
+
 import json
 import pandas as pd
 from PIL import Image
