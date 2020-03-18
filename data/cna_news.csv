@@ -1,13 +1,21 @@
-'Aggressive' action needed in Southeast Asia to stop coronavirus: WHO
-"<hl>NEW DELHI: The World Health Organization called for ""aggressive"" action in Southeast Asia to combat the fast-spreading coronavirus, warning on Tuesday (Mar 17) that some countries were heading towards community transmission of the deadly disease."
-"Infections have soared across the region in recent weeks, forcing several countries to introduce drastic measures ranging from closing their borders to foreign arrivals and imposing nighttime curfews to closing schools and cancelling sports events."
-There are concerns that weaker public health care systems in many Southeast Asian countries will be unable to cope with a major outbreak.
-"""We need to immediately scale up all efforts to prevent the virus from infecting more people,"" said Poonam Khetrapal Singh, WHO's regional director."
-"While this is an indication of an alert and effective surveillance, it also puts the spotlight on the need for more aggressive and whole of society efforts to prevent further spread of COVID-19,"" she said."
-"Malaysia has the highest number of infections in Southeast Asia with 673 cases, according to a Johns Hopkins University tally."
-"Many of the country's infections have been linked to a global Islamic event held last month and attended by almost 20,000 people."
-"<hl>On Monday, the prime minister announced a ban on Malaysians travelling overseas."
-"Singh said simple measures such as washing hands and social distancing were ""critical"" in the fight against the virus and could ""substantially reduce transmission""."
-"Since the virus first emerged in China in December, 7,408 people have died around the world, according to an AFP tally based on official sources."
-"The European Centre for Disease Prevention and Control said more than 180,000 cases had been confirmed worldwide as of Tuesday."
-Download our app or subscribe to our Telegram channel for the latest updates on the coronavirus outbreak: https://cna.asia/telegram​​​​​​​​​​​​​​
+Machine learning has uncertainty. Design for it.
+"<hl>We can productize and ship more data science insights — even imperfect, probabilistic ones — with the right designs."
+"That means fewer and fewer of the products we build deal in facts as we know them: instead, they rely more and more on probabilistic things like inferences, predictions, and recommendations."
+"<hl>After all, you’d probably rather know there is a 50% chance of rain than have no forecast at all."
+How can we unlock user value from algorithms that are bound to be wrong?
+We can do what forecasts do: design our products to be upfront about uncertainty.
+"In the age of machine learning, designing products that communicate their degree of certainty can be a huge competitive advantage:"
+"<hl>We can productize and ship more data science insights—even imperfect, probabilistic ones — by empowering users to make their own judgments about how to use them, rather than deciding for them and shipping nothing."
+"<hl>We can productize and ship more data science insights—even imperfect, probabilistic ones — by empowering users to make their own judgments about how to use them, rather than deciding for them and shipping nothing."
+"Communicating uncertainty is a disclaimer: users can weigh evidence and draw conclusions at their own risk, instead of having to take a product’s claims at face value and holding it responsible for opaque, incorrect conclusions."
+"Communicating uncertainty is a disclaimer: users can weigh evidence and draw conclusions at their own risk, instead of having to take a product’s claims at face value and holding it responsible for opaque, incorrect conclusions."
+Good design lets users see what a product is doing: visibility of system status is the first Nielsen Norman heuristic for user interface design.
+Visibility of uncertainty saves users the pain of figuring out for themselves how reliable something is.
+"Machine learning expresses uncertainty in probabilities, but probabilities aren’t products: normal people don’t want to pore over p-values and confidence intervals, and designers don’t want to create complicated monstrosities riddled with asterisks and technicalities."
+"Besides, non-experts are not very good at interpreting raw probabilities, sometimes turning them into terrible strategic decisions."
+"We should communicate uncertainty in our products, but we need effective, user-centric design solutions to do it."
+"<hl>In this article, I’ll describe three design patterns that do it well:"
+"<hl>To make things concrete, I’ll mainly draw examples from Context, our legal data analytics product that extracts useful insights from the language of millions of judicial opinions."
+"It’s a great proving ground for productizing machine learning, since our attorney user base can be highly skeptical of probability and totally unforgiving of error."
+We’ve learned a lot in designing a product that works for them!
+"The formula here is simple: provide your probabilistic insight (The airport is a little busy right now…), and let users know how your algorithm arrived at it (…based on visits to this place)."

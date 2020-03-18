@@ -46,7 +46,7 @@ if url_summarize_btn:
     agree = []
 
     for i in range(len(df)):
-        agree.append(streamlit.checkbox(df.loc[i][0], value=(i in summarized)))
+        agree.append(streamlit.checkbox(df.loc[i][0], value=(i in summarized), key=i))
 
 streamlit_balloons_btn = streamlit.sidebar.button('Balloons!')
 if streamlit_balloons_btn:
