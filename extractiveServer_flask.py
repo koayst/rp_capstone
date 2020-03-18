@@ -4,7 +4,7 @@
 #!conda install pytorch -c pytorch
 #!conda install flask
 
-import highlighter
+import summaryEngine
 
 from flask import Flask, render_template, request, jsonify
 
@@ -14,11 +14,11 @@ app = Flask(__name__, template_folder='.')
 def url_request():
     url_req = request.json
       
-    print('\n\n-----------')
-    print('The URL is => ', url_req['search_url'])
-    fileSaved = highlighter.getSummary(url_req['search_url'])
-    print('Filename saved: ', fileSaved)
-    print('-----------\n')
+    #print('\n\n-----------')
+    #print('The URL is => ', url_req['search_url'])
+    fileSaved = summaryEngine.getSummary(url_req['search_url'])
+    #print('Filename saved: ', fileSaved)
+    #print('-----------\n')
     
     return jsonify(filename=fileSaved)
 
