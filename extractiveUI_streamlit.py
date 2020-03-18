@@ -1,3 +1,5 @@
+#!pip install streamlit
+
 import json
 import pandas as pd
 from PIL import Image
@@ -21,7 +23,9 @@ if url_summarize_btn:
     )
 
     resp = requests.post(FLASK_SERVER_URL, json=payload)
-    streamlit.write('The json is: ', resp.json())
+    dataFile = resp.json()
+    
+    print(dataFile['filename'])
 
     # Display a title
     '''
@@ -30,7 +34,7 @@ if url_summarize_btn:
     '''
 
     # load the summarized data.
-    df = pd.read_csv('data\\cna_news_for_testing.csv')
+    df = pd.read_csv(dataFile['filename'])
 
     # print the document title
     streamlit.title(df.columns[0])

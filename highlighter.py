@@ -4,13 +4,8 @@ from summarizer import Summarizer
 import pandas as pd
 from datetime import datetime
 
-import os
-print(os.getcwd())
-
-
 #1 get full articles
-
-def getArticle(urls):
+def getArticle(url):
     global title
     article = Article(url)
     article.download()
@@ -21,7 +16,6 @@ def getArticle(urls):
     return full
 
 #2: extractive summary
-
 def extSumm(full):
     orgi = full
     model = Summarizer( model ='distilbert-base-uncased') # can adjust parameters
@@ -29,7 +23,6 @@ def extSumm(full):
     return summa
 
 #3 cleaning up text
-
 def cleanup(textbody):
     
     main_list =[]
@@ -44,7 +37,6 @@ def cleanup(textbody):
     return textbody
 
 # 4 tokenise text 
-
 def tokenise(text):
     orgi = sent_tokenize(text)
     orgi = cleanup(orgi)
@@ -52,7 +44,6 @@ def tokenise(text):
 
 
 # 5 highlighting tool for summaried sentenses that are in original article
-  
 def highlight(List1, List2): 
     check = False
     global full_list
@@ -74,12 +65,9 @@ def highlight(List1, List2):
     return full_list
       
 # 6 clean and save
-
-
 def cleanSave(full_list):
     import os
     import pandas as pd
-
     
     summ_list = []
     for things in full_list:
@@ -97,7 +85,7 @@ def cleanSave(full_list):
     
     return fileloc
 
-def inputHere(url):
+def getSummary(url):
     
     full = getArticle(url)
     summ = extSumm(full)
@@ -110,6 +98,4 @@ def inputHere(url):
     df = cleanSave(fullart)
     
     return df 
-      
 
-inputHere(url)
