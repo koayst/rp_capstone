@@ -111,6 +111,5 @@ def inputHere(url):
     
     return df 
       
-url = "https://www.channelnewsasia.com/news/singapore/coronavirus-covid-19-chan-chun-sing-food-supply-12545326"
 
 inputHere(url)
