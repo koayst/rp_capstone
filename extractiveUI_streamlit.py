@@ -51,6 +51,8 @@ WEB_URL_TEXT_DEFAULT = 'http://'
 rp_logo_img = Image.open('img\\rplogo.png')
 streamlit.image(rp_logo_img, width=500, caption='Tech Immersion Placement Programme - Version 0.01 (Intake 1 2020)', format='PNG')
 
+streamlit.markdown('<hr>', unsafe_allow_html=True)
+
 engine_url_text = streamlit.sidebar.text_input('Extractive Summary Engine:', ENGINE_URL_TEXT_DEFAULT)
 web_url_text = streamlit.sidebar.text_input('Web Site URL:', WEB_URL_TEXT_DEFAULT)
 
@@ -66,7 +68,9 @@ if url_summarize_btn:
         getSummary(engine_url_text, web_url_text)
    
 # add line spaces to push the 'clear' button near to the bottom of screen
-streamlit.sidebar.markdown('<br/><br/><br/>', unsafe_allow_html=True)
+#streamlit.sidebar.markdown('<br/><br/><br/>', unsafe_allow_html=True)
+for _ in range(8):
+    streamlit.sidebar.text(' ')
 
 streamlit_clear_btn = streamlit.sidebar.button('Clear')
 if streamlit_clear_btn:
