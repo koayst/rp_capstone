@@ -5,9 +5,13 @@
 
 import json
 import pandas as pd
+
 from PIL import Image
+
 import requests
 import streamlit 
+
+import urllib.request, urllib.error
 
 def getSummary(engine_url, web_url):
      # json.loads expect a string as input
@@ -36,6 +40,7 @@ def getSummary(engine_url, web_url):
     summarized = df.loc[df.iloc[:, 0].str.contains('<hl>')].index.tolist()
     agree = []
 
+    # create the summary lines as checkboxes
     for i in range(len(df)):
         agree.append(streamlit.checkbox(df.loc[i][0], value=(i in summarized), key=i))
 
@@ -51,7 +56,14 @@ web_url_text = streamlit.sidebar.text_input('Web Site URL:', WEB_URL_TEXT_DEFAUL
 
 url_summarize_btn = streamlit.sidebar.button('Summarize')
 if url_summarize_btn:
-    getSummary(engine_url_text, web_url_text)
+    try:
+        conn = urllib.request.urlopen(web_url_text)
+    except urllib.error.HTTPError as e:
+        streamlit.write('There is a HTTP error. Please check.')
+    except urllib.error.URLError as e:
+        streamlit.write('There is an URL error. Please check.')
+    else:
+        getSummary(engine_url_text, web_url_text)
    
 # add line spaces to push the 'clear' button near to the bottom of screen
 streamlit.sidebar.markdown('<br/><br/><br/>', unsafe_allow_html=True)
