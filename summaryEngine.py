@@ -3,19 +3,36 @@ from newspaper import Article
 from summarizer import Summarizer
 import pandas as pd
 from datetime import datetime
+import urllib.request, urllib.error
 
 #1 get full articles
 def getArticle(url):
+    global urlname 
     global title
+
     article = Article(url)
     article.download()
     article.parse()
     article.nlp()
+
     full = article.text
     title = article.title
+
+    urlname= title[0:30] #first 30 characters
+    urlname = urlname.replace(" ","_")
+
+    illegal = "<>:/\|?*"
+
+    for i in illegal:
+
+        urlname = urlname.replace(i, "")
+        print(urlname)
+
+
+
     return full
 
-#2: extractive summary
+#2: extractive summary (distilbert)
 def extSumm(full):
     orgi = full
     model = Summarizer( model ='distilbert-base-uncased') # can adjust parameters
@@ -78,7 +95,12 @@ def cleanSave(full_list):
     df = pd.DataFrame(summ_list, columns = [title])
 
     path = r".\data"
-    name = "cna_news.csv"
+
+    now = datetime.now() # current date and time
+    date_time = now.strftime("%m-%d-%Y_%H-%M-%S")
+
+    name = urlname + "_"+ date_time + ".csv"
+    print(name)
     fileloc = os.path.join(path, name)
     df.to_csv (fileloc, index = False, header=True)
     print(fileloc)
@@ -96,6 +118,11 @@ def getSummary(url):
     
     fullart= highlight(list1, list2)
     df = cleanSave(fullart)
-    
+    print(df)
     return df 
+
+getSummary(url)
+    
+    
+
 
