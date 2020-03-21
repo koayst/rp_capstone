@@ -24,11 +24,8 @@ def getArticle(url):
     illegal = "<>:/\|?*"
 
     for i in illegal:
-
         urlname = urlname.replace(i, "")
-        print(urlname)
-
-
+        #print(urlname)
 
     return full
 
@@ -49,7 +46,6 @@ def cleanup(textbody):
 
     main_list = [item for items in main_list for item in items] 
     
-        
     textbody = main_list
     return textbody
 
@@ -58,7 +54,6 @@ def tokenise(text):
     orgi = sent_tokenize(text)
     orgi = cleanup(orgi)
     return orgi
-
 
 # 5 highlighting tool for summaried sentenses that are in original article
 def highlight(List1, List2): 
@@ -100,10 +95,10 @@ def cleanSave(full_list):
     date_time = now.strftime("%m-%d-%Y_%H-%M-%S")
 
     name = urlname + "_"+ date_time + ".csv"
-    print(name)
+    #print(name)
     fileloc = os.path.join(path, name)
     df.to_csv (fileloc, index = False, header=True)
-    print(fileloc)
+    #print(fileloc)
     
     return fileloc
 
@@ -115,13 +110,10 @@ def getSummary(url):
     list1 = tokenise(full)
     list2 = tokenise(summ)
     
-    
     fullart= highlight(list1, list2)
     df = cleanSave(fullart)
-    print(df)
+    print('getSummary: ', df)
     return df 
-
-getSummary(url)
     
     
 
