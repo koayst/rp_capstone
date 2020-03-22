@@ -112,9 +112,6 @@ def getSummary(url):
     
     fullart= highlight(list1, list2)
     df = cleanSave(fullart)
-    print('getSummary: ', df)
-    return df 
-    
-    
-
+    #print('getSummary: ', df)
+    return df    
 
