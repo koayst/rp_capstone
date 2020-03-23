@@ -8,7 +8,7 @@
 # Streamlit architecture is based on the ability to write apps the same way a plain
 # Python scripts is written.  Streamlit apps have a unique data flow: any time 
 # something must be updated on the screen (for example, responsding to a button is 
-# pressed), Streamlit will just reruns the entire Python script from top to bottom.
+# pressed), Streamlit will just rerun the entire Python script from top to bottom.
 #
 # This will pose a challenge for the app developer because it is not implemented
 # as a 'callback', like most web apps will function.  
@@ -43,14 +43,15 @@ def urlReachable(url):
     try:
         conn = urllib.request.urlopen(url)
     except urllib.error.HTTPError as e:
-        streamlit.write('There is a HTTP error. Please check.')
+        streamlit.warning('There is a HTTP error. Please check.')
         return False
     except urllib.error.URLError as e:
-        streamlit.write('There is an URL error. Please check.')
+        streamlit.warning('There is an URL error. Please check.')
         return False
     else:
         return True
- 
+
+# the function is cached as explained in observation above
 @streamlit.cache(suppress_st_warning=True, show_spinner=False)
 def getSummary(engine_url, web_url):
 
@@ -93,14 +94,22 @@ def getSummary(engine_url, web_url):
 ENGINE_URL_TEXT_DEFAULT = 'http://127.0.0.1:5500'
 WEB_URL_TEXT_DEFAULT = 'http://'
 
-# --- Side Bar ---
+# --- Side Bar BEGIN ---
 
 engine_url_text = streamlit.sidebar.text_input('Extractive Summary Engine:', ENGINE_URL_TEXT_DEFAULT)
 web_url_text = streamlit.sidebar.text_input('Web Site URL:', WEB_URL_TEXT_DEFAULT)
 
 # add line spaces to push the 'clear' button near to the bottom of screen
-for _ in range(9):
-    streamlit.sidebar.text(' ')
+for _ in range(5):
+    streamlit.sidebar.text('')
+
+if streamlit.sidebar.button('Save'):
+    print('Saved !\n\n')
+    for i in range(len(selected)):
+        print('{}: is {}'.format(i, selected[i]))
+        
+for _ in range(2):
+    streamlit.sidebar.text('')
     
 streamlit.sidebar.markdown(
     "**Capstone Project:**<br />"
@@ -108,28 +117,28 @@ streamlit.sidebar.markdown(
     unsafe_allow_html=True
 )
 
-test_btn = streamlit.sidebar.button('Fun!')
-if test_btn:
+if streamlit.sidebar.button('Fun!'):
     streamlit.balloons()
 
-# --- Side Bar ---
+# --- Side Bar END ---
 
-# --- Main --
+# --- Main BEGIN --
 rp_logo_img = Image.open(os.path.join('img', 'rplogo.png'))
 streamlit.image(rp_logo_img, width=400, format='PNG')
 streamlit.markdown('<hr>', unsafe_allow_html=True)
 
 df, summarized, title_txt = getSummary(engine_url_text, web_url_text)
 
+selected = []
 if len(title_txt) > 0:
     # print the document title
     streamlit.title(title_txt)
 
-# create the summary lines as checkboxes
-for i in range(len(df)):
-    streamlit.checkbox(df.loc[i][0], value=(i in summarized), key=i)
-
-# --- Main ---
+    # create the summary lines as checkboxes
+    for i in range(len(df)):
+        selected.append(streamlit.checkbox(df.loc[i][0], value=(i in summarized), key=i))
+    
+# --- Main END ---
    
 # hide the 'Make with Streamlit' footer at bottom of web page
 hide_streamlit_style = """

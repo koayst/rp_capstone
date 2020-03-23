@@ -83,7 +83,7 @@ def cleanSave(full_list):
     
     summ_list = []
     for things in full_list:
-        if len(things) >60:
+        if len(things) > 20:
             summ_list.append(things)
     
     #title = article.title
