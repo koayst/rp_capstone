@@ -2,11 +2,26 @@
 #
 # to run:
 # streamlit run extractiveUI_streamlit.py
+#
+# Observation:
+# Ref: https://docs.streamlit.io/main_concepts.html#data-flow
+# Streamlit architecture is based on the ability to write apps the same way a plain
+# Python scripts is written.  Streamlit apps have a unique data flow: any time 
+# something must be updated on the screen (for example, responsding to a button is 
+# pressed), Streamlit will just reruns the entire Python script from top to bottom.
+#
+# This will pose a challenge for the app developer because it is not implemented
+# as a 'callback', like most web apps will function.  
+#
+# Some of these quirks can be 'hacked' using Streamlit's cache (streamlit@cache) 
+# decorator which allows developers to skip certain costly computations when their 
+# apps rerun.  Being a hack, some times it will not work perfectly.  
 
 import json
 import os
 import pandas as pd
 
+from urllib.parse import urlparse
 from PIL import Image
 
 import requests
@@ -14,11 +29,42 @@ import streamlit
 
 import urllib.request, urllib.error
 
-#print('***** BEGIN')
+# test whether URL is properly formed
+def urlProperlyFormed (url):
+    try:
+        result = urlparse(url)    
+        #all() returns true if all the variables inside it return true
+        return all([result.scheme, result.netloc])
+    except ValueError:
+        return False
 
-@streamlit.cache(suppress_st_warning=True)
+# test whether URL is 'internet' reachable  
+def urlReachable(url):
+    try:
+        conn = urllib.request.urlopen(url)
+    except urllib.error.HTTPError as e:
+        streamlit.write('There is a HTTP error. Please check.')
+        return False
+    except urllib.error.URLError as e:
+        streamlit.write('There is an URL error. Please check.')
+        return False
+    else:
+        return True
+ 
+@streamlit.cache(suppress_st_warning=True, show_spinner=False)
 def getSummary(engine_url, web_url):
-    if web_url.lstrip().rstrip() == 'http://':
+
+    #strip spaces before and after the URL
+    engine_url = engine_url.lstrip().rstrip()
+    web_url = web_url.lstrip().rstrip()
+
+    # if URL is not valid
+    if not urlProperlyFormed(web_url):
+        return (pd.DataFrame(), [], '')
+    # if URL is http:// or https://
+    elif web_url == 'http://' or web_url == 'https://':
+        return (pd.DataFrame(), [], '')
+    elif not urlReachable(web_url):
         return (pd.DataFrame(), [], '')
 
     # json.loads expect a string as input
@@ -51,15 +97,6 @@ WEB_URL_TEXT_DEFAULT = 'http://'
 
 engine_url_text = streamlit.sidebar.text_input('Extractive Summary Engine:', ENGINE_URL_TEXT_DEFAULT)
 web_url_text = streamlit.sidebar.text_input('Web Site URL:', WEB_URL_TEXT_DEFAULT)
-
-summarize_btn = streamlit.sidebar.button('Summarize')
-if summarize_btn:
-    try:
-        conn = urllib.request.urlopen(web_url_text)
-    except urllib.error.HTTPError as e:
-        streamlit.write('There is a HTTP error. Please check.')
-    except urllib.error.URLError as e:
-        streamlit.write('There is an URL error. Please check.')
 
 # add line spaces to push the 'clear' button near to the bottom of screen
 for _ in range(9):
@@ -103,4 +140,4 @@ hide_streamlit_style = """
             """
 streamlit.markdown(hide_streamlit_style, unsafe_allow_html=True) 
 
-#print('***** END')
+
