@@ -99,8 +99,8 @@ WEB_URL_TEXT_DEFAULT = 'http://'
 engine_url_text = streamlit.sidebar.text_input('Extractive Summary Engine:', ENGINE_URL_TEXT_DEFAULT)
 web_url_text = streamlit.sidebar.text_input('Web Site URL:', WEB_URL_TEXT_DEFAULT)
 
-# add line spaces to push the 'clear' button near to the bottom of screen
-for _ in range(5):
+# add line spaces to push the 'Save' button near to the bottom of screen
+for _ in range(2):
     streamlit.sidebar.text('')
 
 if streamlit.sidebar.button('Save'):
@@ -108,14 +108,15 @@ if streamlit.sidebar.button('Save'):
     for i in range(len(selected)):
         print('{}: is {}'.format(i, selected[i]))
         
-for _ in range(2):
-    streamlit.sidebar.text('')
+streamlit.sidebar.markdown('<hr>', unsafe_allow_html=True)        
     
 streamlit.sidebar.markdown(
     "**Capstone Project:**<br />"
     "TIPP (Intake 1 - Mar 2020)<br />",
     unsafe_allow_html=True
 )
+
+streamlit.sidebar.info('Extractive Summarizer using BERT transformer model.')
 
 if streamlit.sidebar.button('Fun!'):
     streamlit.balloons()
