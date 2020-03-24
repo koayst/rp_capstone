@@ -21,8 +21,9 @@ import json
 import os
 import pandas as pd
 
-from urllib.parse import urlparse
+from numpy import asarray
 from PIL import Image
+from urllib.parse import urlparse
 
 import requests
 import streamlit 
@@ -100,7 +101,7 @@ engine_url_text = streamlit.sidebar.text_input('Extractive Summary Engine:', ENG
 web_url_text = streamlit.sidebar.text_input('Web Site URL:', WEB_URL_TEXT_DEFAULT)
 
 # add line spaces to push the 'Save' button near to the bottom of screen
-for _ in range(2):
+for _ in range(1):
     streamlit.sidebar.text('')
 
 save_btn = streamlit.sidebar.button('Save')        
@@ -121,7 +122,11 @@ if streamlit.sidebar.button('Fun!'):
 
 # --- Main BEGIN --
 rp_logo_img = Image.open(os.path.join('img', 'rplogo.png'))
-streamlit.image(rp_logo_img, width=400, format='PNG')
+rp_logo_array = asarray(rp_logo_img)
+nvidia_logo_img = Image.open(os.path.join('img', 'nvidia_logo.png'))
+nvidia_logo_array = asarray(nvidia_logo_img)
+
+streamlit.image([nvidia_logo_array, rp_logo_array], width=300, format='PNG')
 streamlit.markdown('<hr>', unsafe_allow_html=True)
 
 df, summarized, title_txt = getSummary(engine_url_text, web_url_text)
@@ -141,7 +146,6 @@ if save_btn:
     print('Saved !\n\n')
     for i in range(len(selected)):
         print('{}: is {}'.format(i, selected[i]))
-   
    
 # hide the 'Make with Streamlit' footer at bottom of web page
 hide_streamlit_style = """
