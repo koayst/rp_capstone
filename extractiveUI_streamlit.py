@@ -7,7 +7,7 @@
 # Ref: https://docs.streamlit.io/main_concepts.html#data-flow
 # Streamlit architecture is based on the ability to write apps the same way a plain
 # Python scripts is written.  Streamlit apps have a unique data flow: any time 
-# something must be updated on the screen (for example, responsding to a button is 
+# something must be updated on the screen (for example, responding to a button is 
 # pressed), Streamlit will just rerun the entire Python script from top to bottom.
 #
 # This will pose a challenge for the app developer because it is not implemented
