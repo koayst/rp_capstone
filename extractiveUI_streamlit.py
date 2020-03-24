@@ -103,11 +103,7 @@ web_url_text = streamlit.sidebar.text_input('Web Site URL:', WEB_URL_TEXT_DEFAUL
 for _ in range(2):
     streamlit.sidebar.text('')
 
-if streamlit.sidebar.button('Save'):
-    print('Saved !\n\n')
-    for i in range(len(selected)):
-        print('{}: is {}'.format(i, selected[i]))
-        
+save_btn = streamlit.sidebar.button('Save')        
 streamlit.sidebar.markdown('<hr>', unsafe_allow_html=True)        
     
 streamlit.sidebar.markdown(
@@ -140,6 +136,12 @@ if len(title_txt) > 0:
         selected.append(streamlit.checkbox(df.loc[i][0], value=(i in summarized), key=i))
     
 # --- Main END ---
+      
+if save_btn:
+    print('Saved !\n\n')
+    for i in range(len(selected)):
+        print('{}: is {}'.format(i, selected[i]))
+   
    
 # hide the 'Make with Streamlit' footer at bottom of web page
 hide_streamlit_style = """
