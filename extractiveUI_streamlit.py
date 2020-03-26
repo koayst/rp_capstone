@@ -1,21 +1,23 @@
 #!pip install streamlit
 #
-# to run:
+# Date Created: 1 March 2020
+#
+# To run:
 # streamlit run extractiveUI_streamlit.py
 #
-# Observation:
 # Ref: https://docs.streamlit.io/main_concepts.html#data-flow
 # Streamlit architecture is based on the ability to write apps the same way a plain
 # Python scripts is written.  Streamlit apps have a unique data flow: any time 
-# something must be updated on the screen (for example, responding to a button is 
-# pressed), Streamlit will just rerun the entire Python script from top to bottom.
+# something must be updated on the screen (for example, when a button is pressed)
+# Streamlit will just rerun the entire Python script from top to bottom.
 #
 # This will pose a challenge for the app developer because it is not implemented
 # as a 'callback', like most web apps will function.  
 #
-# Some of these quirks can be 'hacked' using Streamlit's cache (streamlit@cache) 
-# decorator which allows developers to skip certain costly computations when their 
-# apps rerun.  Being a hack, some times it will not work perfectly.  
+# Some of these quirks could be 'hacked' using Streamlit's cache (streamlit@cache) 
+# decorator which allows developer to skip certain costly computations when their 
+# app is rerun.  Being a hack, some times it will not work unexpectedly.  Also
+# not easy to debug.  
 
 import json
 import os
@@ -61,25 +63,21 @@ def getSummary(engine_url, web_url):
     web_url = web_url.lstrip().rstrip()
 
     # if URL is not valid
-    if not urlProperlyFormed(web_url):
-        return (pd.DataFrame(), [], '')
-    # if URL is http:// or https://
-    elif web_url == 'http://' or web_url == 'https://':
-        return (pd.DataFrame(), [], '')
-    elif not urlReachable(web_url):
-        return (pd.DataFrame(), [], '')
+    # if URL is (empty) either 'http://' or 'https://'
+    # if URL is not reachable
+    if not urlProperlyFormed(web_url) or (web_url == 'http://' or web_url == 'https://') or not urlReachable(web_url):
+        return ('', pd.DataFrame(), [], '')
+    
+    # the json object to be sent across
+    payload = {
+        'search_url' : web_url
+    }
 
-    # json.loads expect a string as input
-    # it then convert it to a dict
-    payload = json.loads (
-        '{"search_url": ' + '"' + web_url  + '"}'
-    )
-
-    # send a post to flask to get a summarized csv file
+    # send a post to flask to get a summarized csv filename
     resp = requests.post(engine_url + '/url', json=payload)
     dataFile = resp.json()
     
-    #print(dataFile['filename'])
+    #print('filename: ', dataFile['filename'])
 
     # load the summarized data
     df = pd.read_csv(dataFile['filename'])
@@ -87,9 +85,8 @@ def getSummary(engine_url, web_url):
     # indexes of the extractive summarizer
     summarized = df.loc[df.iloc[:, 0].str.contains('<hl>')].index.tolist()
 
-    # return the dataframe and
-    # list of indexes
-    return (df, summarized, df.columns[0])
+    # return the csv filename, dataframe, indexes and title
+    return (dataFile['filename'], df, summarized, df.columns[0])
 
 # initialisation
 ENGINE_URL_TEXT_DEFAULT = 'http://127.0.0.1:5500'
@@ -129,7 +126,7 @@ nvidia_logo_array = asarray(nvidia_logo_img)
 streamlit.image([nvidia_logo_array, rp_logo_array], width=300, format='PNG')
 streamlit.markdown('<hr>', unsafe_allow_html=True)
 
-df, summarized, title_txt = getSummary(engine_url_text, web_url_text)
+fn, df, summarized, title_txt = getSummary(engine_url_text, web_url_text)
 
 selected = []
 if len(title_txt) > 0:
@@ -143,10 +140,20 @@ if len(title_txt) > 0:
 # --- Main END ---
       
 if save_btn:
-    print('Saved !\n\n')
+    #print('Save button pressed!\n\n')
+    
+    idxs = []
     for i in range(len(selected)):
-        print('{}: is {}'.format(i, selected[i]))
-   
+        if selected[i]:
+            idxs.append(i)
+    payload = {
+        'filename' : fn,
+        'indexes' : idxs
+    }
+    
+    # send the filename and indexes to be updated to server
+    resp = requests.post(engine_url_text + '/update', json=payload)
+       
 # hide the 'Make with Streamlit' footer at bottom of web page
 hide_streamlit_style = """
             <style>
