@@ -1,4 +1,5 @@
 import pandas as pd
+import argparse
 
 def scoring(bertdf,userdf):
     
@@ -21,7 +22,7 @@ def scoring(bertdf,userdf):
     berttitle= bertdf.columns[0]
     cleanedbert =bertdf.iloc[bertsum , : ]
     
-    bertdf =cleanedbert[berttitle].tolist()
+    bertdf = cleanedbert[berttitle].tolist()
     bert = ' '.join([str(elem) for elem in bertdf]) 
     
     #2.2 convert to list
@@ -30,7 +31,6 @@ def scoring(bertdf,userdf):
     
     userdf =cleaneduser[usertitle].tolist()
     user = ' '.join([str(elem) for elem in userdf]) 
-    
     
     #scoring, we use rouge-l (ROUGE-L: Longest Common Subsequence based statistics, takes sentences into account) 
     from rouge import Rouge
@@ -45,7 +45,6 @@ def scoring(bertdf,userdf):
 
     print("BERT: "+str(bertsum) +"\nUSER: "+str(usersum))
 
-    
     print("\n\nROUGE scoring:\n\n"+
           "Precision is :"+"{:.2%}".format(precision)+
           "\nRecall is :"+"{:.2%}".format(recall)+
@@ -56,10 +55,20 @@ def scoring(bertdf,userdf):
           "F Score: aggregation of BERT performance,(if 100% means perfect match)")
     return 
 
-#input 2 csv file and convert it to dataframe
-bert = pd.read_csv(r"C:\Users\User\Desktop\TIPP\11 NVidia project\data\testbert.csv")
-user = pd.read_csv(r"C:\Users\User\Desktop\TIPP\11 NVidia project\data\testuser.csv")
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description='Rouge Scoring')
+    parser.add_argument('filename_1', help='CSV file of BERT summarizer of a searched URL', nargs='?')
+    parser.add_argument('filename_2', help='CSV file user changes', nargs='?')
+    args = parser.parse_args()
 
+    if args.filename_1 is not None and args.filename_2 is not None:
 
-#scoring (machine, human) - this order is important
-scoring(bert,user)
+        #input 2 csv file and convert it to dataframe
+        bert = pd.read_csv(args.filename_1)
+        user = pd.read_csv(args.filename_2)
+
+        #scoring (machine, human) - this order is important
+        scoring(bert,user)
+    else:
+        # print usage help if either file name is not provided
+        print(parser.print_help())
