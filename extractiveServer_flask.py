@@ -1,8 +1,8 @@
-#!pip install newspaper3k
-#!pip install bert-extractive-summarizer
-#!pip install transformers==2.2.0
-#!conda install pytorch -c pytorch
-#!conda install flask
+#pip install newspaper3k
+#pip install bert-extractive-summarizer
+#pip install transformers==2.2.0
+#conda install pytorch -c pytorch
+#conda install flask
 #
 # Date Created: 1 March 2020
 #

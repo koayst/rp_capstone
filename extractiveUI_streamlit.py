@@ -1,4 +1,4 @@
-#!pip install streamlit
+#pip install streamlit
 #
 # Date Created: 1 March 2020
 #
