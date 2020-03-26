@@ -53,7 +53,16 @@ def cleanup(textbody):
 def tokenise(text):
     orgi = sent_tokenize(text)
     orgi = cleanup(orgi)
-    return orgi
+
+    summ_list = []
+    for things in orgi:
+        if len(things) > 20:
+            summ_list.append(things)
+
+
+
+
+    return summ_list
 
 # 5 highlighting tool for summaried sentenses that are in original article
 def highlight(List1, List2): 
@@ -91,19 +100,19 @@ def cleanSave(full_list):
     import os
     import pandas as pd
     
-    summ_list = []
-    for things in full_list:
-        if len(things) > 20:
-            summ_list.append(things)
+    # summ_list = []
+    # for things in full_list:
+    #     if len(things) > 20:
+    #         summ_list.append(things)
     
     #insert highlighted numbers
     #summ_list.insert(0, number)
     listToStr = ','.join([str(elem) for elem in number]) 
     print(listToStr)
 
-    print(summ_list)
+    # print(summ_list)
     #title = article.title
-    df = pd.DataFrame(summ_list, columns = [title])
+    df = pd.DataFrame(full_list, columns = [title])
 
     df.iloc[0]= listToStr
     
@@ -134,7 +143,6 @@ def getSummary(url):
     #print('getSummary: ', df)
     return df    
 
-url= "https://www.channelnewsasia.com/news/asia/malaysia-pm-muhyiddin-set-to-announce-cabinet-lineup-12517120"
+
 getSummary(url)
 
-print(number)
