@@ -83,7 +83,8 @@ def getSummary(engine_url, web_url):
     df = pd.read_csv(dataFile['filename'])
 
     # indexes of the extractive summarizer
-    summarized = df.loc[df.iloc[:, 0].str.contains('<hl>')].index.tolist()
+    #summarized = df.loc[df.iloc[:, 0].str.contains('<hl>')].index.tolist()
+    summarized = [int(x) for x in df.iloc[0][0].split(',') if x.strip().isdigit()]
 
     # return the csv filename, dataframe, indexes and title
     return (dataFile['filename'], df, summarized, df.columns[0])
@@ -134,8 +135,8 @@ if len(title_txt) > 0:
     streamlit.title(title_txt)
 
     # create the summary lines as checkboxes
-    for i in range(len(df)):
-        selected.append(streamlit.checkbox(df.loc[i][0], value=(i in summarized), key=i))
+    for i in range(1, len(df)):
+        selected.append(streamlit.checkbox(df.loc[i][0], value=(i-1 in summarized), key=i))
     
 # --- Main END ---
       
