@@ -21,7 +21,7 @@ def getArticle(url):
     urlname= title[0:30] #first 30 characters
     urlname = urlname.replace(" ","_")
 
-    illegal = "<>:/\|?*"
+    illegal = r"<>:/\|?*"
 
     for i in illegal:
         urlname = urlname.replace(i, "")
@@ -59,7 +59,10 @@ def tokenise(text):
 def highlight(List1, List2): 
     check = False
     global full_list
+    global number
+    number = []
     full_list=[]
+    index_num = 0
   
     # Iterate in the 1st list 
     for m in List1: 
@@ -72,9 +75,16 @@ def highlight(List1, List2):
             if m == n: 
                 check = True
                 full_list.pop()
-                full_list.append("<hl>"+ m)           
-                  
+                #full_list.append("<hl>"+ m)
+                full_list.append(m)
+                number.append(index_num)
+
+        index_num= index_num+1
+    #full_list.insert(0, number)        
+                 
     return full_list
+
+
       
 # 6 clean and save
 def cleanSave(full_list):
@@ -86,9 +96,18 @@ def cleanSave(full_list):
         if len(things) > 20:
             summ_list.append(things)
     
+    #insert highlighted numbers
+    #summ_list.insert(0, number)
+    listToStr = ','.join([str(elem) for elem in number]) 
+    print(listToStr)
+
+    print(summ_list)
     #title = article.title
     df = pd.DataFrame(summ_list, columns = [title])
 
+    df.iloc[0]= listToStr
+    
+    
     path = r".\data"
 
     now = datetime.now() # current date and time
@@ -115,3 +134,7 @@ def getSummary(url):
     #print('getSummary: ', df)
     return df    
 
+url= "https://www.channelnewsasia.com/news/asia/malaysia-pm-muhyiddin-set-to-announce-cabinet-lineup-12517120"
+getSummary(url)
+
+print(number)
