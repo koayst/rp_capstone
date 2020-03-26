@@ -15,6 +15,8 @@
 # /update - update the summarizer machine with the indexes
 #
 
+import os
+import pandas as pd
 import summaryEngine
 
 from flask import Flask, render_template, request, jsonify
@@ -29,7 +31,7 @@ def url_request():
     print('\n-----------')
     print('The URL is => ', url_req['search_url'])
     fileSaved = summaryEngine.getSummary(url_req['search_url'])
-    print('Filename saved: ', fileSaved)
+    print('File saved: ', fileSaved)
     print('-----------\n')
     
     return jsonify(filename=fileSaved)
@@ -40,8 +42,19 @@ def update_request():
 
     url_req = request.json
     print('\n-----------')
-    print('File to update: ', url_req['filename'])
-    print('Indexes to update: ', url_req['indexes'])
+    print('File to replace: ', url_req['filename'])
+    print('Indexes updated by user: ', url_req['indexes'])
+    
+    # read the 'before' file content
+    df = pd.read_csv(url_req['filename'])   
+    
+    # convert the indexes to be change to a string of comma separated int
+    df.iloc[0][0] = ','.join(str(i) for i in url_req['indexes'])
+    # rename the filename by adding a '_changed' followed by '.csv' extension
+    updated_filename = os.path.splitext(url_req['filename'])[0] + '_changed.csv'
+    print('Updated filename: ', updated_filename)
+    # save the dataframe as csv file
+    df.to_csv(updated_filename, index = False, header=True, encoding="utf-8")
     print('-----------\n')
     
     return jsonify(success=True)

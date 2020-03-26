@@ -80,7 +80,7 @@ def getSummary(engine_url, web_url):
     #print('filename: ', dataFile['filename'])
 
     # load the summarized data
-    df = pd.read_csv(dataFile['filename'])
+    df = pd.read_csv(dataFile['filename'], encoding="utf-8")
 
     # indexes of the extractive summarizer
     #summarized = df.loc[df.iloc[:, 0].str.contains('<hl>')].index.tolist()

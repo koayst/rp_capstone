@@ -59,9 +59,6 @@ def tokenise(text):
         if len(things) > 20:
             summ_list.append(things)
 
-
-
-
     return summ_list
 
 # 5 highlighting tool for summaried sentenses that are in original article
@@ -92,8 +89,6 @@ def highlight(List1, List2):
     #full_list.insert(0, number)        
                  
     return full_list
-
-
       
 # 6 clean and save
 def cleanSave(full_list):
@@ -116,7 +111,6 @@ def cleanSave(full_list):
 
     df.iloc[0]= listToStr
     
-    
     path = r".\data"
 
     now = datetime.now() # current date and time
@@ -125,7 +119,7 @@ def cleanSave(full_list):
     name = urlname + "_"+ date_time + ".csv"
     #print(name)
     fileloc = os.path.join(path, name)
-    df.to_csv (fileloc, index = False, header=True)
+    df.to_csv (fileloc, index = False, header=True, encoding="utf-8")
     #print(fileloc)
     
     return fileloc
