@@ -144,5 +144,3 @@ def getSummary(url):
     return df    
 
 
-getSummary(url)
-

@@ -26,7 +26,7 @@ app = Flask(__name__, template_folder='.')
 def url_request():
     url_req = request.json
       
-    print('\n\n-----------')
+    print('\n-----------')
     print('The URL is => ', url_req['search_url'])
     fileSaved = summaryEngine.getSummary(url_req['search_url'])
     print('Filename saved: ', fileSaved)
@@ -39,10 +39,10 @@ def url_request():
 def update_request():
 
     url_req = request.json
-    print('\n\n-----------')
+    print('\n-----------')
     print('File to update: ', url_req['filename'])
     print('Indexes to update: ', url_req['indexes'])
-    print('\n\n-----------')
+    print('-----------\n')
     
     return jsonify(success=True)
 
