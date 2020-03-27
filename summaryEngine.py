@@ -95,22 +95,16 @@ def cleanSave(full_list):
     import os
     import pandas as pd
     
-    # summ_list = []
-    # for things in full_list:
-    #     if len(things) > 20:
-    #         summ_list.append(things)
-    
-    #insert highlighted numbers
-    #summ_list.insert(0, number)
     listToStr = ','.join([str(elem) for elem in number]) 
     print(listToStr)
 
-    # print(summ_list)
-    #title = article.title
-    df = pd.DataFrame(full_list, columns = [title])
+    df = pd.DataFrame(columns=[title])
+    # add the indexes to first row
+    df.loc[0] = listToStr
+    # add the sentences to rest of dataframe
+    for i in range(len(full_list)):
+        df.loc[i+1] = full_list[i]
 
-    df.iloc[0]= listToStr
-    
     path = r".\data"
 
     now = datetime.now() # current date and time
@@ -137,4 +131,4 @@ def getSummary(url):
     #print('getSummary: ', df)
     return df    
 
-
+getSummary('https://www.channelnewsasia.com/news/business/covid-19-budget-singapore-stimulus-recession-outbreak-12580774')

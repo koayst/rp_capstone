@@ -10,7 +10,6 @@ def scoring(bertdf,userdf):
     bertsum =bertsum.to_string(header=False,index=False,index_names=False)
     bertsum= [int(s) for s in bertsum.split(',')]
     
-    
     bertdf=bertdf.drop(0).reset_index(drop=True)
     
     #1.2 clean up user df, extract the first row, and reset index
@@ -45,16 +44,16 @@ def scoring(bertdf,userdf):
     
     #print(f1,precision,recall)
 
-    print("BERT: "+str(bertsum) +"\nUSER: "+str(usersum))
+    print("\nBERT: "+str(bertsum) +"\nUSER: "+str(usersum))
 
     print("\n\nROUGE scoring:\n\n"+
           "Precision is :"+"{:.2%}".format(precision)+
           "\nRecall is :"+"{:.2%}".format(recall)+
           "\nF Score is :"+"{:.2%}".format(f_score))
     
-    print("\nPrecision: how much BERT summary exceeds human summary, (if less than 100% means user removed sentences)\n"
-          "Recall: how much BERT summary explains the human summary, (if less than 100% means user added sentences)\n"
-          "F Score: aggregation of BERT performance,(if 100% means perfect match)")
+    print("\nPrecision: how much BERT summary exceeds human summary,\n(if less than 100% means user removed sentences)\n"
+          "\nRecall: how much BERT summary explains the human summary,\n(if less than 100% means user added sentences)\n"
+          "\nF Score: aggregation of BERT performance,\n(if 100% means perfect match)\n")
     return 
 
 if __name__ == '__main__':
