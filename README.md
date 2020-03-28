@@ -7,4 +7,7 @@ This project is a collaboration between Nvidia and Republic Polytechnic (RP) as 
 
 # Brief
 - Development envirnment - Windows 8 / Windows 10
-- 
+- Streamlit and Flask
+- Python
+- Transformer
+- Newspaper3k
