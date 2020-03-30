@@ -130,5 +130,3 @@ def getSummary(url):
     df = cleanSave(fullart)
     #print('getSummary: ', df)
     return df    
-
-getSummary('https://www.channelnewsasia.com/news/business/covid-19-budget-singapore-stimulus-recession-outbreak-12580774')
