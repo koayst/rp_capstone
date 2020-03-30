@@ -6,8 +6,10 @@ This project is a collaboration between Nvidia and Republic Polytechnic (RP) as 
 - The summarisation technique will be powered by Bidirectional Encoder Representations from Transformers (BERT) models. 
 
 # Brief
-- Development envirnment - Windows 8 / Windows 10
+- Development environment - Windows 8 / Windows 10
 - Streamlit and Flask
 - Python
 - Transformer
 - Newspaper3k
+- Tensorflow
+- Pytorch
