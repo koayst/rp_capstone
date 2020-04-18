@@ -16,7 +16,7 @@ This project is a collaboration between Nvidia and Republic Polytechnic (RP) as 
 - Tensorflow
 - Pytorch
 
-# Documents (doc folder)
+# Documents (docs folder)
 - Powerpoint slides/ Demo
 - Report
 - Poster
